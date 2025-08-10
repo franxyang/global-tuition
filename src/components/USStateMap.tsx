@@ -203,7 +203,7 @@ export default function USStateMap() {
               Per-Student State Funding Change (2008-2024)
             </h3>
             <p className="text-sm text-gray-600">
-              Based on SHEEO FY2024 data. 22 states haven't recovered from pre-recession funding levels.
+              Based on SHEEO FY2024 data. 22 states haven&apos;t recovered from pre-recession funding levels.
             </p>
             
             <div className="relative overflow-x-auto">
@@ -215,17 +215,17 @@ export default function USStateMap() {
                   maxWidth: `${maxCols * 45}px`
                 }}
               >
-                {stateGrid.map((cell, index) => {
+                {stateGrid.map((cell) => {
                   const stateCode = cell.state;
                   const data = stateCode ? stateData[stateCode] : null;
                   
                   if (!stateCode) {
-                    return <div key={index} className="aspect-square"></div>;
+                    return <div key={`empty-${cell.row}-${cell.col}`} className="aspect-square"></div>;
                   }
                   
                   return (
                     <motion.button
-                      key={index}
+                      key={stateCode}
                       className={`
                         aspect-square rounded-md text-white font-bold text-xs
                         flex flex-col items-center justify-center

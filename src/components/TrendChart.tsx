@@ -3,17 +3,13 @@
 import { useState } from "react";
 import { 
   LineChart, Line, XAxis, YAxis, Tooltip, Legend, 
-  ResponsiveContainer, CartesianGrid, Label 
+  ResponsiveContainer, CartesianGrid
 } from "recharts";
 import { motion } from 'framer-motion';
 
 type Point = { year: number; value: number };
 type Series = { name: string; data: Point[]; color?: string };
 
-function indexValues(values: number[]) {
-  const base = values[0] || 1;
-  return values.map(v => Math.round((v / base) * 100));
-}
 
 export default function TrendChart({ series }: { series: Series[] }) {
   const [indexed, setIndexed] = useState(false);

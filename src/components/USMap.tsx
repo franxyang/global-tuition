@@ -59,7 +59,7 @@ export default function USMap() {
             </h3>
             <div className="relative" style={{ height: '400px' }}>
               <div className="grid grid-cols-9 gap-1 h-full">
-                {Array.from({ length: 63 }, (_, index) => {
+                {Array.from({ length: 63 }, (_item, index) => {
                   const row = Math.floor(index / 9);
                   const col = index % 9;
                   const state = Object.entries(stateData).find(

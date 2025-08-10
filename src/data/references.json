@@ -46,5 +46,23 @@
     "id": "golashboza-2016", 
     "group": "Course", 
     "text": "Golash-Boza, T. (2016). A critical and comprehensive sociological theory of race and racism. Sociology of Race & Ethnicity, 2(2), 129–141." 
+  },
+  {
+    "n": 9,
+    "id": "sheeo-2024",
+    "group": "Data & Media",
+    "text": "SHEEO (2024). State Higher Education Finance FY2024. State Higher Education Executive Officers Association. Education appropriations per FTE: $11,683 nationally, 22 states below 2008 levels."
+  },
+  {
+    "n": 10,
+    "id": "iie-2024",
+    "group": "Data & Media",
+    "text": "IIE (2024, Nov 18). Open Doors 2024 Report on International Educational Exchange. Institute of International Education. Record 1.1M international students, $50B+ economic contribution."
+  },
+  {
+    "n": 11,
+    "id": "brookings-2022",
+    "group": "Data & Media",
+    "text": "Howell, J. & Pender, M. (2022). The Great Student Swap: How flagships increasingly serve out-of-state students. Brookings Institution. Analysis of public flagship enrollment shifts."
   }
 ]

@@ -8,7 +8,7 @@ import EquityTabs from "@/components/EquityTabs";
 import KeyFindings from "@/components/KeyFindings";
 import TuitionComparison from "@/components/TuitionComparison";
 import CounterArguments from "@/components/CounterArguments";
-import FundingChangeBars from "@/components/FundingChangeBars";
+import USStateMap from "@/components/USStateMap";
 import Footnote from "@/components/Footnote";
 import { EXPLORE } from "@/content/copy";
 import trendsData from "@/data/trends.json";
@@ -96,7 +96,7 @@ export default function ExplorePage() {
 
       <KeyFindings />
 
-      <FundingChangeBars />
+      <USStateMap />
       
       <section className="space-y-6">
         <div className="flex items-center justify-between mb-4">

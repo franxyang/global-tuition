@@ -332,7 +332,7 @@ export default function USStateMap() {
               <span className="font-medium">Legend:</span>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-green-500 rounded"></div>
-                <span>Increased (>0%)</span>
+                <span>Increased (&gt;0%)</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-yellow-400 rounded"></div>
@@ -344,7 +344,7 @@ export default function USStateMap() {
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-red-500 rounded"></div>
-                <span>Severe cut (< -20%)</span>
+                <span>Severe cut (&lt; -20%)</span>
               </div>
             </div>
           </div>

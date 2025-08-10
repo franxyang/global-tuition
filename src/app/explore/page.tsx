@@ -8,7 +8,7 @@ import EquityTabs from "@/components/EquityTabs";
 import KeyFindings from "@/components/KeyFindings";
 import TuitionComparison from "@/components/TuitionComparison";
 import CounterArguments from "@/components/CounterArguments";
-import USMap from "@/components/USMap";
+import FundingChangeBars from "@/components/FundingChangeBars";
 import Footnote from "@/components/Footnote";
 import { EXPLORE } from "@/content/copy";
 import trendsData from "@/data/trends.json";
@@ -84,7 +84,7 @@ export default function ExplorePage() {
   ];
 
   return (
-    <div className="space-y-16 py-12">
+    <div className="space-y-12 py-12">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">
           <span className="gradient-text">Explore the Data</span>
@@ -96,13 +96,10 @@ export default function ExplorePage() {
 
       <KeyFindings />
 
-      <USMap />
+      <FundingChangeBars />
       
       <section className="space-y-6">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            National Trends Over Time
-          </h2>
+        <div className="flex items-center justify-between mb-4">
           <CampusToggle
             options={campusOptions}
             selected={selectedCampus}
@@ -111,17 +108,14 @@ export default function ExplorePage() {
         </div>
         
         <TrendChart series={prepareChartData()} />
-        <p className="text-sm text-gray-600">
-          {EXPLORE.chartCaption} <Footnote n={1} />
-        </p>
       </section>
 
       <TuitionComparison />
 
       <section className="space-y-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">
-            Revenue Impact Calculator
+          <h2 className="text-2xl font-bold">
+            <span className="gradient-text">Revenue Impact Calculator</span>
           </h2>
           <p className="text-gray-600">
             {EXPLORE.calculatorHelp}
@@ -133,8 +127,8 @@ export default function ExplorePage() {
       <CounterArguments />
 
       <section className="space-y-6">
-        <h2 className="text-2xl font-bold text-gray-900">
-          Equity Perspectives
+        <h2 className="text-2xl font-bold">
+          <span className="gradient-text">Equity Perspectives</span>
         </h2>
         <EquityTabs tabs={equityTabs} />
       </section>

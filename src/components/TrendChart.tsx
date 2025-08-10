@@ -1,18 +1,37 @@
 "use client";
 
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid } from "recharts";
+import { useState } from "react";
+import { 
+  LineChart, Line, XAxis, YAxis, Tooltip, Legend, 
+  ResponsiveContainer, CartesianGrid, Label 
+} from "recharts";
 import { motion } from 'framer-motion';
 
 type Point = { year: number; value: number };
 type Series = { name: string; data: Point[]; color?: string };
 
+function indexValues(values: number[]) {
+  const base = values[0] || 1;
+  return values.map(v => Math.round((v / base) * 100));
+}
+
 export default function TrendChart({ series }: { series: Series[] }) {
+  const [indexed, setIndexed] = useState(false);
+  
   const years = series[0]?.data.map(d => d.year) ?? [];
   const data = years.map(year => {
     const row: Record<string, number | null> = { year };
     series.forEach(s => {
       const pt = s.data.find(p => p.year === year);
-      row[s.name] = pt?.value ?? null;
+      const value = pt?.value ?? null;
+      
+      if (indexed && value !== null && s.data[0]) {
+        // Calculate percentage change from base year
+        const baseValue = s.data[0].value;
+        row[s.name] = Math.round((value / baseValue) * 100);
+      } else {
+        row[s.name] = value;
+      }
     });
     return row;
   });
@@ -20,6 +39,7 @@ export default function TrendChart({ series }: { series: Series[] }) {
   const colors = ["#3b82f6", "#8b5cf6", "#ec4899"];
 
   const formatYAxis = (value: number) => {
+    if (indexed) return `${value}%`;
     if (value >= 1000) {
       return `${(value / 1000).toFixed(0)}k`;
     }
@@ -27,40 +47,62 @@ export default function TrendChart({ series }: { series: Series[] }) {
   };
 
   const formatTooltip = (value: number, name: string) => {
-    if (name.includes('$') || name.includes('tuition') || name.includes('Tuition')) {
+    if (indexed) return `${value}%`;
+    if (name.toLowerCase().includes('tuition') || name.includes('$')) {
       return `$${value.toLocaleString()}`;
     }
     return value.toLocaleString();
   };
 
   return (
-    <motion.figure 
-      aria-labelledby="chart-title" 
-      role="img" 
-      className="w-full"
+    <motion.section 
+      className="space-y-4"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
     >
-      <h3 id="chart-title" className="sr-only">
-        Trends in state funding, international enrollment, and nonresident tuition
-      </h3>
-      <div className="glass-card rounded-xl p-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-2xl font-bold">
+          <span className="gradient-text">National Trends Over Time</span>
+        </h3>
+        <label className="flex items-center gap-2 text-sm font-medium cursor-pointer">
+          <input
+            type="checkbox"
+            className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+            checked={indexed}
+            onChange={() => setIndexed(s => !s)}
+            aria-label="Toggle percent change view"
+          />
+          <span>Show as % change (base year = 100)</span>
+        </label>
+      </div>
+
+      <figure role="img" aria-labelledby="chart-title" className="glass-card rounded-xl p-6">
+        <h3 id="chart-title" className="sr-only">
+          Trends in state funding, international enrollment, and nonresident tuition
+        </h3>
         <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={data} margin={{ top: 10, right: 60, left: 60, bottom: 60 }}>
+          <LineChart data={data} margin={{ top: 10, right: 30, left: 60, bottom: 60 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis 
               dataKey="year" 
               stroke="#6b7280"
-              label={{ value: 'Year', position: 'insideBottom', offset: -10 }}
+              tickMargin={10}
+              label={{ value: 'Year', position: 'insideBottom', offset: -5 }}
               domain={['dataMin', 'dataMax']}
               ticks={years}
             />
             <YAxis 
               stroke="#6b7280"
               tickFormatter={formatYAxis}
-              label={{ value: 'Value', angle: -90, position: 'insideLeft' }}
+              tickMargin={10}
+              label={{ 
+                value: indexed ? '% Change (base year = 100)' : 'Value', 
+                angle: -90, 
+                position: 'insideLeft',
+                style: { textAnchor: 'middle' }
+              }}
             />
             <Tooltip 
               contentStyle={{ 
@@ -70,8 +112,13 @@ export default function TrendChart({ series }: { series: Series[] }) {
                 backdropFilter: 'blur(10px)'
               }}
               formatter={formatTooltip}
+              labelFormatter={(label) => `Year: ${label}`}
             />
-            <Legend />
+            <Legend 
+              verticalAlign="top" 
+              height={36}
+              wrapperStyle={{ paddingBottom: '10px' }}
+            />
             {series.map((s, i) => (
               <Line 
                 key={s.name} 
@@ -79,13 +126,19 @@ export default function TrendChart({ series }: { series: Series[] }) {
                 dataKey={s.name} 
                 stroke={colors[i % colors.length]}
                 strokeWidth={3}
-                dot={{ fill: colors[i % colors.length], r: 5 }}
-                activeDot={{ r: 7 }}
+                dot={{ fill: colors[i % colors.length], r: 4 }}
+                activeDot={{ r: 6 }}
               />
             ))}
           </LineChart>
         </ResponsiveContainer>
-      </div>
-    </motion.figure>
+        <figcaption className="text-sm text-gray-600 mt-4">
+          {indexed 
+            ? "When shown as % change, both series are comparable on one axis." 
+            : "State support per FTE fell while international enrollment and nonresident tuition rose."
+          } <sup><a href="/references#1" className="text-blue-600 hover:underline">[1]</a></sup>
+        </figcaption>
+      </figure>
+    </motion.section>
   );
 }

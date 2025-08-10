@@ -1,0 +1,14 @@
+{
+  "us": { 
+    "label": "U.S. aggregate", 
+    "series": ["state_per_fte_usd", "intl_enrollment"] 
+  },
+  "uw": { 
+    "label": "UW–Madison (hook)", 
+    "series": ["avg_nonresident_tuition"] 
+  },
+  "alt": { 
+    "label": "Example Flagship", 
+    "series": ["avg_nonresident_tuition"] 
+  }
+}
